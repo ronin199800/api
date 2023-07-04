@@ -1,0 +1,7 @@
+{
+  "name": "travel-agancy project",
+  "db": {
+    "address": "mongodb://127.0.0.1:27017/travelAgancy"
+  },
+  "jwt_key":"fd4f5ds4f68ds7fds54fSSSdsFFF6FFFF84af5d4AAf44dfDFSFDSFDFSSDdSSSasffahhafQ5454DFD4F5DS4F5DSF4"
+}

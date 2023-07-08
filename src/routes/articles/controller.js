@@ -22,25 +22,53 @@ module.exports = new (class extends controller {
     });
   }
   async getArticle(req, res) {
-    const article = await this.Article.find().sort({ createdAt: -1 });
-    this.response({ res, massage: "all articles", data: article });
-  }
-  async getcategory(req, res) {
     try {
-      const categories = await this.Article.distinct("category");
-      this.response({ res, data: categories });
+      const articles = await this.Article.find()
+        .populate("category", ["name_fa", "name_en"])
+        .sort({ createdAt: -1 })
+        .exec();
+
+      this.response({ res, message: "All articles", data: articles });
     } catch (error) {
       console.error(error);
+      this.response({ res, message: "Error retrieving articles", error });
     }
   }
-  async getBycategory(req, res) {
+
+  async getArticleCategory(req, res) {
+    const articleCategory = await this.ArticleCat.find();
+    this.response({
+      res,
+      data: "all article categories",
+      data: articleCategory,
+    });
+  }
+  async getByCategory(req, res) {
     try {
-      const article = await this.Article.find({
-        category: req.params.category,
-      }).sort({ createdAt: -1 });
-      this.response({ res, data: article });
+      const categoryId = req.params.categoryId;
+      console.log(req.params.categoryId)
+  
+      const articles = await this.Article.find({ category: categoryId })
+        .populate("category")
+        .sort({ createdAt: -1 })
+        .exec();
+  
+      this.response({ res, message: "Articles by category", data: articles });
     } catch (error) {
       console.error(error);
+      this.response({ res, message: "Error retrieving articles", error });
     }
+  
+  }
+  async postArticleCategory(req, res) {
+    const articleCat = await new this.ArticleCat(
+      _.pick(req.body, ["name_fa", "name_en"])
+    );
+    await articleCat.save();
+    this.response({
+      res,
+      massage: "article category succsesfully created",
+      data: _.pick(articleCat, ["name_fa", "name_en", "createdAt"]),
+    });
   }
 })();

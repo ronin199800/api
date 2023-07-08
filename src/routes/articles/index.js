@@ -13,11 +13,15 @@ router.get(
 );
 router.get(
   "/category",
-  controller.getcategory
+  controller.getArticleCategory
+);
+router.post(
+  "/category",
+  controller.postArticleCategory
 );
 router.get(
-  "/:category",
-  controller.getBycategory
+  "/:categoryId",
+  controller.getByCategory
 );
 
 

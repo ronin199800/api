@@ -7,8 +7,8 @@ const articleSchema = new mongoose.Schema({
   read_time:Number,
   img_url:String,
   category: {
-    type: String,
-    enum: ['news', 'roles', 'guide', 'tourism']
+    type : mongoose.Schema.Types.ObjectId,
+    ref:'ArticleCat'
   }
 });
 articleSchema.plugin(timestamp)

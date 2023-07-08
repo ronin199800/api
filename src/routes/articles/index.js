@@ -15,12 +15,16 @@ router.get(
   "/category",
   controller.getArticleCategory
 );
+router.get(
+  "/:id",
+  controller.getEachArticle
+);
 router.post(
   "/category",
   controller.postArticleCategory
 );
 router.get(
-  "/:categoryId",
+  "/category/:categoryId",
   controller.getByCategory
 );
 

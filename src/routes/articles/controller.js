@@ -71,4 +71,8 @@ module.exports = new (class extends controller {
       data: _.pick(articleCat, ["name_fa", "name_en", "createdAt"]),
     });
   }
+  async getEachArticle (req,res){
+    const article = await this.Article.findById(req.params.id)
+    this.response({res,massage:'article find',data:article})
+  }
 })();

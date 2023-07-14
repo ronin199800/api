@@ -23,10 +23,7 @@ router.post(
   "/category",
   controller.postArticleCategory
 );
-router.get(
-  "/category/:categoryId",
-  controller.getByCategory
-);
+
 
 
 

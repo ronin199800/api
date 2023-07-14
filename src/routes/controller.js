@@ -29,10 +29,11 @@ module.exports = class {
     if (!this.validationBody(req, res)) return;
     next();
   }
-  response({ res, massage, code = 200, data = {} }) {
+  response({ res, message, code = 200, data = {},totalPages }) {
     res.status(code).json({
-      massage,
+      message,
       data,
+      totalPages,
     });
   }
 };

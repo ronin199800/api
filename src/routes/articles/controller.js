@@ -23,12 +23,28 @@ module.exports = new (class extends controller {
   }
   async getArticle(req, res) {
     try {
+      console.log(req.query)
+      const page = parseInt(req.query.page) || 1;
+      const limit = 13;
+      const skip = (page - 1) * limit;
+
       const articles = await this.Article.find()
         .populate("category", ["name_fa", "name_en"])
         .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
         .exec();
 
-      this.response({ res, message: "All articles", data: articles });
+      const totalArticles = await this.Article.countDocuments().exec();
+      const totalPages = Math.ceil(totalArticles / limit);
+
+
+      this.response({
+        res,
+        message: "All articles",
+        data: articles,
+        totalPages,
+      });
     } catch (error) {
       console.error(error);
       this.response({ res, message: "Error retrieving articles", error });
@@ -46,19 +62,18 @@ module.exports = new (class extends controller {
   async getByCategory(req, res) {
     try {
       const categoryId = req.params.categoryId;
-      console.log(req.params.categoryId)
-  
+      console.log(req.params.categoryId);
+
       const articles = await this.Article.find({ category: categoryId })
         .populate("category")
         .sort({ createdAt: -1 })
         .exec();
-  
+
       this.response({ res, message: "Articles by category", data: articles });
     } catch (error) {
       console.error(error);
       this.response({ res, message: "Error retrieving articles", error });
     }
-  
   }
   async postArticleCategory(req, res) {
     const articleCat = await new this.ArticleCat(
@@ -71,8 +86,8 @@ module.exports = new (class extends controller {
       data: _.pick(articleCat, ["name_fa", "name_en", "createdAt"]),
     });
   }
-  async getEachArticle (req,res){
-    const article = await this.Article.findById(req.params.id)
-    this.response({res,massage:'article find',data:article})
+  async getEachArticle(req, res) {
+    const article = await this.Article.findById(req.params.id);
+    this.response({ res, massage: "article find", data: article });
   }
 })();

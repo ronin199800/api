@@ -110,4 +110,16 @@ module.exports = new (class extends controller {
       this.response({ res, message: 'Internal server error' }, 500);
     }
   }
+  async deleteArticleCat(req, res) {
+    try {
+      const articleCat = await this.ArticleCat.findByIdAndRemove(req.params.id);
+      if (!articleCat) {
+        return this.response({ res, message: 'Article category not found' });
+      }
+      this.response({ res, message: 'Article category successfully deleted', data: articleCat });
+    } catch (error) {
+      console.error(error);
+      this.response({ res, message: 'Internal server error' }, 500);
+    }
+  }
 })();

@@ -27,8 +27,9 @@ router.post(
   "/category",
   controller.postArticleCategory
 );
-
-
-
+router.delete(
+  "/category/:id",
+  controller.deleteArticleCat
+);
 
 module.exports = router;

@@ -96,6 +96,18 @@ module.exports = new (class extends controller {
   }
   async getEachArticle(req, res) {
     const article = await this.Article.findById(req.params.id);
-    this.response({ res, massage: "article find", data: article });
+    this.response({ res, message: "article find", data: article });
+  }
+  async deleteArticle(req, res) {
+    try {
+      const article = await this.Article.findByIdAndRemove(req.params.id);
+      if (!article) {
+        return this.response({ res, message: 'Article not found' });
+      }
+      this.response({ res, message: 'Article successfully deleted', data: article });
+    } catch (error) {
+      console.error(error);
+      this.response({ res, message: 'Internal server error' }, 500);
+    }
   }
 })();

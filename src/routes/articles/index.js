@@ -11,6 +11,10 @@ router.get(
   "/",
   controller.getArticle
 );
+router.delete(
+  "/:id",
+  controller.deleteArticle
+);
 router.get(
   "/category",
   controller.getArticleCategory

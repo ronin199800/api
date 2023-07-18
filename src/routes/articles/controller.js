@@ -23,7 +23,6 @@ module.exports = new (class extends controller {
   }
   async getArticle(req, res) {
     try {
-      console.log(req.query);
       const page = parseInt(req.query.page) || 1;
       const limit = 12;
       const skip = (page - 1) * limit;

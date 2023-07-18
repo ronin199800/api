@@ -26,23 +26,23 @@ module.exports = new (class extends controller {
       const page = parseInt(req.query.page) || 1;
       const limit = 12;
       const skip = (page - 1) * limit;
-  
+
       let query = {};
-  
+
       if (req.query.category) {
         query.category = req.query.category;
       }
-  
+
       const articles = await this.Article.find(query)
         .populate("category", ["name_fa", "name_en", "_id"])
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit)
         .exec();
-  
+
       const totalArticles = await this.Article.count(query);
       const totalPages = Math.ceil(totalArticles / limit);
-  
+
       this.response({
         res,
         message: "articles by category",
@@ -57,15 +57,29 @@ module.exports = new (class extends controller {
 
   async getArticleCategory(req, res) {
     try {
-      const articleCategory = await this.ArticleCat.find();
+      const page = parseInt(req.query.page) || 1;
+      const limit = 12;
+      const skip = (page - 1) * limit;
+      const articleCategory = await this.ArticleCat.find()
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .exec();
+      const totalArticles = await this.ArticleCat.count();
+      const totalPages = Math.ceil(totalArticles / limit);
       this.response({
         res,
         data: "all article categories",
         data: articleCategory,
+        totalPages,
       });
     } catch (error) {
       console.error(error);
-      this.response({ res, message: "Error retrieving articles", error });
+      this.response({
+        res,
+        message: "Error retrieving articles categories",
+        error,
+      });
     }
   }
 

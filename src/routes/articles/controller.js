@@ -122,4 +122,5 @@ module.exports = new (class extends controller {
       this.response({ res, message: 'Internal server error' }, 500);
     }
   }
+
 })();

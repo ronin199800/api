@@ -90,7 +90,7 @@ module.exports = new (class extends controller {
     await articleCat.save();
     this.response({
       res,
-      massage: "article category succsesfully created",
+      message: "article category succsesfully created",
       data: _.pick(articleCat, ["name_fa", "name_en", "createdAt"]),
     });
   }

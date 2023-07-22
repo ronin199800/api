@@ -2,7 +2,7 @@ const autoBind = require("auto-bind");
 const { validationResult } = require("express-validator");
 const User = require("./../models/user");
 const Article = require("./../models/article");
-const ArticleCat = require('./../models/articleCat')
+const ArticleCat = require("./../models/articleCat");
 
 module.exports = class {
   constructor() {
@@ -29,7 +29,7 @@ module.exports = class {
     if (!this.validationBody(req, res)) return;
     next();
   }
-  response({ res, message, code = 200, data = {},totalPages }) {
+  response({ res, message, code = 200, data = {}, totalPages }) {
     res.status(code).json({
       message,
       data,

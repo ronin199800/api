@@ -84,15 +84,25 @@ module.exports = new (class extends controller {
   }
 
   async postArticleCategory(req, res) {
-    const articleCat = await new this.ArticleCat(
-      _.pick(req.body, ["name_fa", "name_en"])
-    );
-    await articleCat.save();
-    this.response({
-      res,
-      message: "article category succsesfully created",
-      data: _.pick(articleCat, ["name_fa", "name_en", "createdAt"]),
-    });
+    try {
+      const articleCat = new this.ArticleCat(
+        _.pick(req.body, ["name_fa", "name_en"])
+      );
+      await articleCat.validate(); // Validate the document before saving
+      await articleCat.save();
+      this.response({
+        res,
+        message: "article category successfully created",
+        data: _.pick(articleCat, ["name_fa", "name_en", "createdAt"]),
+      });
+    } catch (error) {
+      // Handle validation errors
+      this.response({
+        res,
+        message: "Validation error",
+        data: error.message,
+      });
+    }
   }
   async getEachArticle(req, res) {
     const article = await this.Article.findById(req.params.id);

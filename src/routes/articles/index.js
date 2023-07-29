@@ -15,5 +15,7 @@ router.post(
   controller.postArticleCategory
 );
 router.delete("/category/:id", controller.deleteArticleCat);
+router.put("/category/:id", controller.updateArticleCat);
+
 
 module.exports = router;

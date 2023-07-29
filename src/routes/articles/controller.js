@@ -112,25 +112,60 @@ module.exports = new (class extends controller {
     try {
       const article = await this.Article.findByIdAndRemove(req.params.id);
       if (!article) {
-        return this.response({ res, message: 'Article not found' });
+        return this.response({ res, message: "Article not found" });
       }
-      this.response({ res, message: 'Article successfully deleted', data: article });
+      this.response({
+        res,
+        message: "Article successfully deleted",
+        data: article,
+      });
     } catch (error) {
       console.error(error);
-      this.response({ res, message: 'Internal server error' }, 500);
+      this.response({ res, message: "Internal server error" }, 500);
     }
   }
   async deleteArticleCat(req, res) {
     try {
       const articleCat = await this.ArticleCat.findByIdAndRemove(req.params.id);
       if (!articleCat) {
-        return this.response({ res, message: 'Article category not found' });
+        return this.response({ res, message: "Article category not found" });
       }
-      this.response({ res, message: 'Article category successfully deleted', data: articleCat });
+      this.response({
+        res,
+        message: "Article category successfully deleted",
+        data: articleCat,
+      });
     } catch (error) {
       console.error(error);
-      this.response({ res, message: 'Internal server error' }, 500);
+      this.response({ res, message: "Internal server error" }, 500);
     }
   }
+  async updateArticleCat(req, res) {
+    const categoryId = req.params.id;
+    const { name_fa, name_en } = req.body;
+    try {
+      const category = await this.ArticleCat.findByIdAndUpdate(
+        categoryId,
+        { name_fa, name_en },
+        { new: true }
+      );
 
+      if (!category) {
+        return this.response({ res, message: "Category not found", code: 404 });
+      }
+
+      return this.response({
+        res,
+        data: category,
+        message: "article category succsesfuly updated",
+      });
+    } catch (err) {
+      console.error("Error updating category:", err);
+      return this.response({
+        res,
+        message: "Internal server error",
+        code: 500,
+      });
+    }
+  }
 })();
